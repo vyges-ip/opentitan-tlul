@@ -1,12 +1,10 @@
 schema_version: "vyges-upstream-v1"
-
 upstream:
   type: "monorepo"
   source: https://github.com/lowRISC/opentitan
   path: hw/ip/tlul
-  commit: 304378684dfcf5be73bbd14faffa71790793d8c6
-  extracted_at: 2025-12-26T20:00:26Z
-
+  commit: 05ff44dc980ee5ee61702d9c866af2a2649533e1
+  extracted_at: "2026-01-05T02:29:21Z"
 import:
   rtl:
     - path: "rtl"
@@ -15,7 +13,6 @@ import:
     - path: "apache-2.0"
   readme:
     - path: "README.md"
-
 license:
   spdx: Apache-2.0
   file: apache-2.0
