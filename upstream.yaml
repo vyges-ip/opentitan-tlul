@@ -3,8 +3,8 @@ upstream:
   type: "monorepo"
   source: https://github.com/lowRISC/opentitan
   path: hw/ip/tlul
-  commit: 8eebabada21bebf8df635c1b60e31bc12e13c4a2
-  extracted_at: "2026-01-12T02:25:15Z"
+  commit: 8ead9103b29be87a7d3c4009a6355ccfa7f1a869
+  extracted_at: "2026-01-19T02:25:35Z"
 import:
   rtl:
     - path: "rtl"
