@@ -64,19 +64,12 @@
       "description": "TL-UL host interface for register access"
     }
   ],
-  "categories": {
-    "primary": "bus",
-    "secondary": [
-      "protocol",
-      "tilelink"
-    ],
-    "tags": [
-      "protocol",
-      "tilelink",
-      "opentitan",
-      "lowrisc-opentitan"
-    ]
-  },
+  "categories": [
+    {
+      "main_category": "Interface Controllers",
+      "sub_category": "protocol, tilelink"
+    }
+  ],
   "community": {
     "issues": "https://github.com/vyges-ip/opentitan-tlul/issues",
     "contributions": "https://github.com/vyges-ip/opentitan-tlul/pulls"
@@ -86,5 +79,24 @@
     "logo": "https://vyges.com/assets/logo.svg",
     "website": "https://github.com/vyges-ip/opentitan-tlul",
     "usage": "Use of the logo is permitted for attribution or compatibility references only."
+  },
+  "keywords": [
+    "protocol",
+    "tilelink",
+    "opentitan",
+    "lowrisc-opentitan"
+  ],
+  "asic": {
+    "flavor": "digital",
+    "pdks": [
+      "sky130A"
+    ],
+    "synthesis_tool": "yosys"
+  },
+  "fpga": {
+    "toolchain": "yosys"
+  },
+  "automation": {
+    "automation_level": "basic"
   }
 }
