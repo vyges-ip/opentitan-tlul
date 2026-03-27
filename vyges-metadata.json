@@ -3,32 +3,247 @@
   "x-version": "1.0.0",
   "name": "opentitan-tlul",
   "version": "0.1.0",
-  "description": "TileLink Uncached Lightweight (TL-UL) bus infrastructure library. Includes protocol package (tlul_pkg), host/register/SRAM adapters, sync/async FIFOs, 1:N and M:1 socket crossbar components, data integrity (SECDED ECC), RACL access control adapters, JTAG DMI bridge, and error response generator. The foundation bus fabric for all OpenTitan-derived SoCs. Extracted from OpenTitan (lowRISC).",
+  "description": "TileLink UL (TL-UL) adapter for SRAM-like devices, supporting byte-level writes with optional integrity and readback checks.",
   "license": "Apache-2.0",
   "maturity": "production",
-  "target": ["asic", "fpga"],
-  "design_type": ["digital"],
-  "created": "2026-02-19T06:12:02Z",
-  "updated": "2026-03-27T19:25:49Z",
-  "source": {"type": "git", "url": "https://github.com/lowRISC/opentitan", "commit": "304378684dfcf5be73bbd14faffa71790793d8c6", "ip_path": "hw/ip/tlul", "private": false, "rtl_path": "rtl", "rtl_files": ["rtl/tlul_pkg.sv", "rtl/tlul_adapter_host.sv", "rtl/tlul_adapter_reg.sv", "rtl/tlul_adapter_sram.sv", "rtl/tlul_adapter_vh.sv", "rtl/tlul_fifo_sync.sv", "rtl/tlul_fifo_async.sv", "rtl/tlul_socket_1n.sv", "rtl/tlul_socket_m1.sv", "rtl/tlul_cmd_intg_gen.sv", "rtl/tlul_cmd_intg_chk.sv", "rtl/tlul_rsp_intg_gen.sv", "rtl/tlul_rsp_intg_chk.sv", "rtl/tlul_data_integ_enc.sv", "rtl/tlul_data_integ_dec.sv", "rtl/tlul_err.sv", "rtl/tlul_err_resp.sv", "rtl/tlul_lc_gate.sv", "rtl/tlul_jtag_dtm.sv", "rtl/tlul_sram_byte.sv", "rtl/tlul_request_loopback.sv", "rtl/sram2tlul.sv", "rtl/tlul_adapter_dmi.sv", "rtl/tlul_adapter_racl.sv", "rtl/tlul_adapter_sram_racl.sv", "rtl/tlul_adapter_reg_racl.sv", "rtl/tlul_adapter_shim.sv", "rtl/tlul_assert.sv", "rtl/tlul_assert_multiple.sv"]},
-  "maintainers": [{"name": "Vyges", "email": "team@vyges.com", "github": "vyges"}],
+  "target": [
+    "asic",
+    "fpga"
+  ],
+  "design_type": [
+    "digital"
+  ],
+  "created": "2026-03-27T23:06:05Z",
+  "updated": "2026-03-27T23:06:05Z",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/lowRISC/opentitan",
+    "commit": "7fbd85829ec6354ef6497df69536cefe862c1f5a",
+    "ip_path": "hw/ip/tlul",
+    "private": false,
+    "containsEncryptedPayload": false,
+    "indexing": true
+  },
+  "maintainers": [
+    {
+      "name": "Vyges",
+      "email": "team@vyges.com",
+      "url": "https://vyges.com",
+      "github": "vyges"
+    }
+  ],
   "interfaces": [
-    {"type": "bus", "protocol": "TL-UL", "description": "TileLink Uncached Lightweight. 32-bit address, 32-bit data, 4-byte mask. Struct types: tl_h2d_t (host-to-device), tl_d2h_t (device-to-host). Operations: Get, PutFullData, PutPartialData."}
+    {
+      "type": "bus",
+      "direction": "input",
+      "protocol": "TL-UL",
+      "port": "tl_i",
+      "width": 57,
+      "description": "TileLink UL host-to-device interface input"
+    },
+    {
+      "type": "bus",
+      "direction": "output",
+      "protocol": "TL-UL",
+      "port": "tl_o",
+      "width": 57,
+      "description": "TileLink UL device-to-host interface output"
+    },
+    {
+      "type": "bus",
+      "direction": "output",
+      "protocol": "TL-UL",
+      "port": "tl_sram_o",
+      "width": 57,
+      "description": "TileLink UL host-to-SRAM interface output"
+    },
+    {
+      "type": "bus",
+      "direction": "input",
+      "protocol": "TL-UL",
+      "port": "tl_sram_i",
+      "width": 57,
+      "description": "TileLink UL SRAM-to-host interface input"
+    },
+    {
+      "type": "clock",
+      "direction": "input",
+      "protocol": "none",
+      "port": "clk_i",
+      "width": 1,
+      "description": "Clock input"
+    },
+    {
+      "type": "reset",
+      "direction": "input",
+      "protocol": "none",
+      "port": "rst_ni",
+      "width": 1,
+      "description": "Active-low reset input"
+    },
+    {
+      "type": "signal",
+      "direction": "input",
+      "protocol": "none",
+      "port": "error_i",
+      "width": 1,
+      "description": "Indicates if the incoming transaction already has an error"
+    },
+    {
+      "type": "signal",
+      "direction": "output",
+      "protocol": "none",
+      "port": "error_o",
+      "width": 1,
+      "description": "Indicates if an error occurred during processing"
+    },
+    {
+      "type": "signal",
+      "direction": "output",
+      "protocol": "none",
+      "port": "alert_o",
+      "width": 1,
+      "description": "Alert signal for critical errors"
+    },
+    {
+      "type": "signal",
+      "direction": "output",
+      "protocol": "none",
+      "port": "compound_txn_in_progress_o",
+      "width": 1,
+      "description": "Indicates if a compound transaction is in progress"
+    },
+    {
+      "type": "signal",
+      "direction": "input",
+      "protocol": "none",
+      "port": "readback_en_i",
+      "width": 4,
+      "description": "Enable signal for readback checks"
+    },
+    {
+      "type": "signal",
+      "direction": "input",
+      "protocol": "none",
+      "port": "wr_collision_i",
+      "width": 1,
+      "description": "Indicates a write collision"
+    },
+    {
+      "type": "signal",
+      "direction": "input",
+      "protocol": "none",
+      "port": "write_pending_i",
+      "width": 1,
+      "description": "Indicates if a write is pending"
+    }
   ],
   "parameters": [
-    {"name": "TL_AW", "type": "int", "default": 32, "description": "Address width"},
-    {"name": "TL_DW", "type": "int", "default": 32, "description": "Data width"},
-    {"name": "TL_AIW", "type": "int", "default": 8, "description": "Source ID width"},
-    {"name": "TL_DBW", "type": "int", "default": 4, "description": "Data byte width (TL_DW/8)"}
+    {
+      "name": "EnableIntg",
+      "type": "bit",
+      "default": 0,
+      "description": "Enable integrity handling at byte level"
+    },
+    {
+      "name": "Outstanding",
+      "type": "int",
+      "default": 1,
+      "description": "Number of outstanding transactions allowed"
+    },
+    {
+      "name": "EnableReadback",
+      "type": "bit",
+      "default": 0,
+      "description": "Enable readback checks on all transactions (requires EnableIntg to be 1)"
+    }
   ],
-  "architecture": {"type": "bus", "submodules": ["tlul_pkg", "tlul_adapter_host", "tlul_adapter_reg", "tlul_adapter_sram", "tlul_fifo_sync", "tlul_fifo_async", "tlul_socket_1n", "tlul_socket_m1", "tlul_cmd_intg_gen/chk", "tlul_rsp_intg_gen/chk", "tlul_data_integ_enc/dec", "tlul_err", "tlul_err_resp", "tlul_lc_gate", "tlul_jtag_dtm", "sram2tlul"], "features": ["TileLink-UL protocol package (tl_h2d_t, tl_d2h_t structs)", "Host adapter (CPU OBI to TL-UL)", "Register adapter (TL-UL to regfile)", "SRAM adapter (TL-UL to SRAM, with byte masking)", "1:N demultiplexer socket (address decode)", "M:1 arbiter socket (priority arbitration)", "Synchronous and asynchronous FIFO bridges (CDC)", "SECDED ECC integrity on command and response channels", "RACL register access control adapters", "JTAG Debug Module Interface bridge", "Lifecycle gating (lc_gate)", "Error response generator", "SRAM byte-level adapter"]},
-  "dependencies": [{"name": "opentitan-prim", "type": "library", "description": "prim_fifo_sync/async, prim_arbiter, prim_secded"}],
-  "documentation": {"upstream": "https://opentitan.org/book/hw/ip/tlul/"},
-  "artifacts": {"rtl": ["rtl/tlul_pkg.sv", "rtl/tlul_adapter_host.sv", "rtl/tlul_adapter_reg.sv", "rtl/tlul_adapter_sram.sv", "rtl/tlul_fifo_sync.sv", "rtl/tlul_fifo_async.sv", "rtl/tlul_socket_1n.sv", "rtl/tlul_socket_m1.sv", "rtl/tlul_err.sv", "rtl/tlul_err_resp.sv"], "total_rtl_lines": 5340},
-  "categories": {"primary": "bus", "secondary": ["interconnect", "infrastructure"], "tags": ["tl-ul", "tilelink", "bus", "crossbar", "fifo", "ecc", "integrity", "racl", "jtag", "opentitan"]},
-  "trust": {"verification_level": "silicon_proven", "tapeout_count": 3, "fpga_validated": true, "maintained": true, "last_activity": "2026-03-27", "notes": "Foundation bus for all OpenTitan SoCs. FPGA-validated in edge-sensor-soc (Vivado + Verilator)."},
-  "asic": {"flavor": "digital", "technology": ["sky130A"]},
-  "fpga": {"toolchain": ["Vivado", "Yosys"]},
-  "keywords": ["tl-ul", "tilelink", "bus", "crossbar", "interconnect", "ecc", "opentitan"],
-  "meta": {"template": {"generator": "manual (gold-standard pass 2026-03-27)"}, "schema": {"version": "1.0.0"}}
+  "performance": {},
+  "architecture": {
+    "type": "bus",
+    "features": [
+      "TileLink UL protocol support",
+      "Byte-level write handling with integrity checks",
+      "Optional readback verification for data integrity",
+      "Support for compound transactions"
+    ]
+  },
+  "asic": {
+    "flavor": "digital",
+    "technology": [
+      "sky130A"
+    ]
+  },
+  "fpga": {
+    "toolchain": [
+      "Vivado"
+    ],
+    "devices": [
+      "Artix-7"
+    ]
+  },
+  "dependencies": [
+    {
+      "name": "prim_assert",
+      "type": "library",
+      "description": "Assertion library for design verification"
+    },
+    {
+      "name": "prim_util_pkg",
+      "type": "library",
+      "description": "Utility package for parameter calculations"
+    },
+    {
+      "name": "prim_mubi_pkg",
+      "type": "library",
+      "description": "Multi-bit upset immune package"
+    },
+    {
+      "name": "top_pkg",
+      "type": "library",
+      "description": "Top-level package for OpenTitan project"
+    }
+  ],
+  "test": {
+    "testbenches": [],
+    "status": "upstream_passing",
+    "coverage": "functional"
+  },
+  "documentation": {
+    "upstream": "https://github.com/lowRISC/opentitan/tree/7fbd85829ec6354ef6497df69536cefe862c1f5a/hw/ip/tlul"
+  },
+  "artifacts": {
+    "total_rtl_lines": 5340
+  },
+  "categories": [
+    {
+      "main_category": "Interface Controllers",
+      "sub_category": "Parallel Interfaces"
+    }
+  ],
+  "keywords": [
+    "TileLink",
+    "SRAM",
+    "TL-UL",
+    "Integrity",
+    "Readback"
+  ],
+  "trust": {
+    "verification_level": "silicon_proven",
+    "tapeout_count": 0,
+    "fpga_validated": false,
+    "formal_verified": false,
+    "maintained": true,
+    "last_activity": "2026-03-27"
+  },
+  "meta": {
+    "template": {
+      "generator": "github-models-ai",
+      "template_version": "1.0.0",
+      "generated_at": "2026-03-27T23:06:05Z"
+    },
+    "schema": {
+      "version": "1.0.0"
+    }
+  }
 }
