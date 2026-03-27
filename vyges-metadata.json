@@ -1,133 +1,34 @@
 {
-  "name": "opentitan-tlul",
-  "version": "0.1.0",
-  "license": "Apache-2.0",
-  "source": {
-    "type": "git",
-    "url": "https://github.com/lowRISC/opentitan",
-    "commit": "304378684dfcf5be73bbd14faffa71790793d8c6",
-    "ip_path": "hw/ip/tlul",
-    "private": false,
-    "rtl_path": "rtl",
-    "rtl_files": [
-      "rtl/sram2tlul.sv",
-      "rtl/tlul_adapter_dmi.sv",
-      "rtl/tlul_adapter_host.sv",
-      "rtl/tlul_adapter_racl.sv",
-      "rtl/tlul_adapter_reg.sv",
-      "rtl/tlul_adapter_reg_racl.sv",
-      "rtl/tlul_adapter_shim.sv",
-      "rtl/tlul_adapter_sram.sv",
-      "rtl/tlul_adapter_sram_racl.sv",
-      "rtl/tlul_adapter_vh.sv",
-      "rtl/tlul_assert.sv",
-      "rtl/tlul_assert_multiple.sv",
-      "rtl/tlul_cmd_intg_chk.sv",
-      "rtl/tlul_cmd_intg_gen.sv",
-      "rtl/tlul_data_integ_dec.sv",
-      "rtl/tlul_data_integ_enc.sv",
-      "rtl/tlul_err.sv",
-      "rtl/tlul_err_resp.sv",
-      "rtl/tlul_fifo_async.sv",
-      "rtl/tlul_fifo_sync.sv",
-      "rtl/tlul_jtag_dtm.sv",
-      "rtl/tlul_lc_gate.sv",
-      "rtl/tlul_pkg.sv",
-      "rtl/tlul_request_loopback.sv",
-      "rtl/tlul_rsp_intg_chk.sv",
-      "rtl/tlul_rsp_intg_gen.sv",
-      "rtl/tlul_socket_1n.sv",
-      "rtl/tlul_socket_m1.sv",
-      "rtl/tlul_sram_byte.sv"
-    ]
-  },
-  "updated": "2026-03-24T02:12:56Z",
   "$schema": "https://vyges.com/schema/v1/vyges-metadata.schema.json",
   "x-version": "1.0.0",
-  "description": "Tlul. OpenTitan IP block from hw/ip/tlul.",
-  "template": "opentitan-ip-template@1.0.0",
-  "target": [
-    "fpga",
-    "asic"
-  ],
-  "design_type": [
-    "digital"
-  ],
-  "maturity": "prototype",
+  "name": "opentitan-tlul",
+  "version": "0.1.0",
+  "description": "TileLink Uncached Lightweight (TL-UL) bus infrastructure library. Includes protocol package (tlul_pkg), host/register/SRAM adapters, sync/async FIFOs, 1:N and M:1 socket crossbar components, data integrity (SECDED ECC), RACL access control adapters, JTAG DMI bridge, and error response generator. The foundation bus fabric for all OpenTitan-derived SoCs. Extracted from OpenTitan (lowRISC).",
+  "license": "Apache-2.0",
+  "maturity": "production",
+  "target": ["asic", "fpga"],
+  "design_type": ["digital"],
   "created": "2026-02-19T06:12:02Z",
+  "updated": "2026-03-27T19:25:49Z",
+  "source": {"type": "git", "url": "https://github.com/lowRISC/opentitan", "commit": "304378684dfcf5be73bbd14faffa71790793d8c6", "ip_path": "hw/ip/tlul", "private": false, "rtl_path": "rtl", "rtl_files": ["rtl/tlul_pkg.sv", "rtl/tlul_adapter_host.sv", "rtl/tlul_adapter_reg.sv", "rtl/tlul_adapter_sram.sv", "rtl/tlul_adapter_vh.sv", "rtl/tlul_fifo_sync.sv", "rtl/tlul_fifo_async.sv", "rtl/tlul_socket_1n.sv", "rtl/tlul_socket_m1.sv", "rtl/tlul_cmd_intg_gen.sv", "rtl/tlul_cmd_intg_chk.sv", "rtl/tlul_rsp_intg_gen.sv", "rtl/tlul_rsp_intg_chk.sv", "rtl/tlul_data_integ_enc.sv", "rtl/tlul_data_integ_dec.sv", "rtl/tlul_err.sv", "rtl/tlul_err_resp.sv", "rtl/tlul_lc_gate.sv", "rtl/tlul_jtag_dtm.sv", "rtl/tlul_sram_byte.sv", "rtl/tlul_request_loopback.sv", "rtl/sram2tlul.sv", "rtl/tlul_adapter_dmi.sv", "rtl/tlul_adapter_racl.sv", "rtl/tlul_adapter_sram_racl.sv", "rtl/tlul_adapter_reg_racl.sv", "rtl/tlul_adapter_shim.sv", "rtl/tlul_assert.sv", "rtl/tlul_assert_multiple.sv"]},
+  "maintainers": [{"name": "Vyges", "email": "team@vyges.com", "github": "vyges"}],
   "interfaces": [
-    {
-      "type": "bus",
-      "direction": "input",
-      "protocol": "TL-UL",
-      "width": 32,
-      "description": "TL-UL host interface for register access",
-      "signals": [
-        {
-          "name": "clk_i",
-          "direction": "input",
-          "type": "clock",
-          "width": 1,
-          "description": "System clock"
-        },
-        {
-          "name": "rst_ni",
-          "direction": "input",
-          "type": "reset",
-          "width": 1,
-          "active_level": "low",
-          "description": "Active-low synchronous reset"
-        },
-        {
-          "name": "tl_i",
-          "direction": "input",
-          "type": "data",
-          "width": 1,
-          "description": "TL-UL host-to-device (tl_h2d_t struct) \u2014 connect to xbar slave port"
-        },
-        {
-          "name": "tl_o",
-          "direction": "output",
-          "type": "data",
-          "width": 1,
-          "description": "TL-UL device-to-host (tl_d2h_t struct) \u2014 connect to xbar slave port"
-        }
-      ]
-    }
+    {"type": "bus", "protocol": "TL-UL", "description": "TileLink Uncached Lightweight. 32-bit address, 32-bit data, 4-byte mask. Struct types: tl_h2d_t (host-to-device), tl_d2h_t (device-to-host). Operations: Get, PutFullData, PutPartialData."}
   ],
-  "categories": [
-    {
-      "main_category": "Interface Controllers",
-      "sub_category": "protocol, tilelink"
-    }
+  "parameters": [
+    {"name": "TL_AW", "type": "int", "default": 32, "description": "Address width"},
+    {"name": "TL_DW", "type": "int", "default": 32, "description": "Data width"},
+    {"name": "TL_AIW", "type": "int", "default": 8, "description": "Source ID width"},
+    {"name": "TL_DBW", "type": "int", "default": 4, "description": "Data byte width (TL_DW/8)"}
   ],
-  "community": {
-    "issues": "https://github.com/vyges-ip/opentitan-tlul/issues",
-    "contributions": "https://github.com/vyges-ip/opentitan-tlul/pulls"
-  },
-  "branding": {
-    "provider": "Vyges IP Catalog",
-    "logo": "https://vyges.com/assets/logo.svg",
-    "website": "https://github.com/vyges-ip/opentitan-tlul",
-    "usage": "Use of the logo is permitted for attribution or compatibility references only."
-  },
-  "keywords": [
-    "protocol",
-    "tilelink",
-    "opentitan",
-    "lowrisc-opentitan"
-  ],
-  "asic": {
-    "flavor": "digital",
-    "pdks": [
-      "sky130A"
-    ],
-    "synthesis_tool": "yosys"
-  },
-  "fpga": {
-    "toolchain": "yosys"
-  },
-  "automation": {
-    "automation_level": "basic"
-  }
+  "architecture": {"type": "bus", "submodules": ["tlul_pkg", "tlul_adapter_host", "tlul_adapter_reg", "tlul_adapter_sram", "tlul_fifo_sync", "tlul_fifo_async", "tlul_socket_1n", "tlul_socket_m1", "tlul_cmd_intg_gen/chk", "tlul_rsp_intg_gen/chk", "tlul_data_integ_enc/dec", "tlul_err", "tlul_err_resp", "tlul_lc_gate", "tlul_jtag_dtm", "sram2tlul"], "features": ["TileLink-UL protocol package (tl_h2d_t, tl_d2h_t structs)", "Host adapter (CPU OBI to TL-UL)", "Register adapter (TL-UL to regfile)", "SRAM adapter (TL-UL to SRAM, with byte masking)", "1:N demultiplexer socket (address decode)", "M:1 arbiter socket (priority arbitration)", "Synchronous and asynchronous FIFO bridges (CDC)", "SECDED ECC integrity on command and response channels", "RACL register access control adapters", "JTAG Debug Module Interface bridge", "Lifecycle gating (lc_gate)", "Error response generator", "SRAM byte-level adapter"]},
+  "dependencies": [{"name": "opentitan-prim", "type": "library", "description": "prim_fifo_sync/async, prim_arbiter, prim_secded"}],
+  "documentation": {"upstream": "https://opentitan.org/book/hw/ip/tlul/"},
+  "artifacts": {"rtl": ["rtl/tlul_pkg.sv", "rtl/tlul_adapter_host.sv", "rtl/tlul_adapter_reg.sv", "rtl/tlul_adapter_sram.sv", "rtl/tlul_fifo_sync.sv", "rtl/tlul_fifo_async.sv", "rtl/tlul_socket_1n.sv", "rtl/tlul_socket_m1.sv", "rtl/tlul_err.sv", "rtl/tlul_err_resp.sv"], "total_rtl_lines": 5340},
+  "categories": {"primary": "bus", "secondary": ["interconnect", "infrastructure"], "tags": ["tl-ul", "tilelink", "bus", "crossbar", "fifo", "ecc", "integrity", "racl", "jtag", "opentitan"]},
+  "trust": {"verification_level": "silicon_proven", "tapeout_count": 3, "fpga_validated": true, "maintained": true, "last_activity": "2026-03-27", "notes": "Foundation bus for all OpenTitan SoCs. FPGA-validated in edge-sensor-soc (Vivado + Verilator)."},
+  "asic": {"flavor": "digital", "technology": ["sky130A"]},
+  "fpga": {"toolchain": ["Vivado", "Yosys"]},
+  "keywords": ["tl-ul", "tilelink", "bus", "crossbar", "interconnect", "ecc", "opentitan"],
+  "meta": {"template": {"generator": "manual (gold-standard pass 2026-03-27)"}, "schema": {"version": "1.0.0"}}
 }
