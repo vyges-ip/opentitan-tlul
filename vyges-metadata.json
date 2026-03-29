@@ -245,5 +245,8 @@
     "schema": {
       "version": "1.0.0"
     }
+  },
+  "branding": {
+    "display_name": "TL-UL Interconnect"
   }
 }
