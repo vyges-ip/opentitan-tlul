@@ -1,252 +1,102 @@
 {
-  "$schema": "https://vyges.com/schema/v1/vyges-metadata.schema.json",
-  "x-version": "1.0.0",
   "name": "opentitan-tlul",
   "version": "0.1.0",
-  "description": "TileLink UL (TL-UL) adapter for SRAM-like devices, supporting byte-level writes with optional integrity and readback checks.",
   "license": "Apache-2.0",
-  "maturity": "production",
+  "source": {
+    "type": "git",
+    "url": "https://github.com/lowRISC/opentitan",
+    "commit": "304378684dfcf5be73bbd14faffa71790793d8c6",
+    "ip_path": "hw/ip/tlul",
+    "private": false,
+    "rtl_path": "rtl",
+    "rtl_files": [
+      "rtl/sram2tlul.sv",
+      "rtl/tlul_adapter_dmi.sv",
+      "rtl/tlul_adapter_host.sv",
+      "rtl/tlul_adapter_racl.sv",
+      "rtl/tlul_adapter_reg.sv",
+      "rtl/tlul_adapter_reg_racl.sv",
+      "rtl/tlul_adapter_shim.sv",
+      "rtl/tlul_adapter_sram.sv",
+      "rtl/tlul_adapter_sram_racl.sv",
+      "rtl/tlul_adapter_vh.sv",
+      "rtl/tlul_assert.sv",
+      "rtl/tlul_assert_multiple.sv",
+      "rtl/tlul_cmd_intg_chk.sv",
+      "rtl/tlul_cmd_intg_gen.sv",
+      "rtl/tlul_data_integ_dec.sv",
+      "rtl/tlul_data_integ_enc.sv",
+      "rtl/tlul_err.sv",
+      "rtl/tlul_err_resp.sv",
+      "rtl/tlul_fifo_async.sv",
+      "rtl/tlul_fifo_sync.sv",
+      "rtl/tlul_jtag_dtm.sv",
+      "rtl/tlul_lc_gate.sv",
+      "rtl/tlul_pkg.sv",
+      "rtl/tlul_request_loopback.sv",
+      "rtl/tlul_rsp_intg_chk.sv",
+      "rtl/tlul_rsp_intg_gen.sv",
+      "rtl/tlul_socket_1n.sv",
+      "rtl/tlul_socket_m1.sv",
+      "rtl/tlul_sram_byte.sv"
+    ]
+  },
+  "updated": "2026-02-19T06:22:56Z",
+  "$schema": "https://vyges.com/schema/v1/vyges-metadata.schema.json",
+  "x-version": "1.0.0",
+  "description": "Tlul. OpenTitan IP block from hw/ip/tlul.",
+  "template": "opentitan-ip-template@1.0.0",
   "target": [
-    "asic",
-    "fpga"
+    "fpga",
+    "asic"
   ],
   "design_type": [
     "digital"
   ],
-  "created": "2026-03-27T23:06:05Z",
-  "updated": "2026-03-27T23:06:05Z",
-  "source": {
-    "type": "git",
-    "url": "https://github.com/lowRISC/opentitan",
-    "commit": "7fbd85829ec6354ef6497df69536cefe862c1f5a",
-    "ip_path": "hw/ip/tlul",
-    "private": false,
-    "containsEncryptedPayload": false,
-    "indexing": true
-  },
-  "maintainers": [
-    {
-      "name": "Vyges",
-      "email": "team@vyges.com",
-      "url": "https://vyges.com",
-      "github": "vyges"
-    }
-  ],
+  "maturity": "imported",
+  "created": "2026-02-19T06:12:02Z",
   "interfaces": [
     {
       "type": "bus",
       "direction": "input",
       "protocol": "TL-UL",
-      "port": "tl_i",
-      "width": 57,
-      "description": "TileLink UL host-to-device interface input"
-    },
-    {
-      "type": "bus",
-      "direction": "output",
-      "protocol": "TL-UL",
-      "port": "tl_o",
-      "width": 57,
-      "description": "TileLink UL device-to-host interface output"
-    },
-    {
-      "type": "bus",
-      "direction": "output",
-      "protocol": "TL-UL",
-      "port": "tl_sram_o",
-      "width": 57,
-      "description": "TileLink UL host-to-SRAM interface output"
-    },
-    {
-      "type": "bus",
-      "direction": "input",
-      "protocol": "TL-UL",
-      "port": "tl_sram_i",
-      "width": 57,
-      "description": "TileLink UL SRAM-to-host interface input"
-    },
-    {
-      "type": "clock",
-      "direction": "input",
-      "protocol": "none",
-      "port": "clk_i",
-      "width": 1,
-      "description": "Clock input"
-    },
-    {
-      "type": "reset",
-      "direction": "input",
-      "protocol": "none",
-      "port": "rst_ni",
-      "width": 1,
-      "description": "Active-low reset input"
-    },
-    {
-      "type": "signal",
-      "direction": "input",
-      "protocol": "none",
-      "port": "error_i",
-      "width": 1,
-      "description": "Indicates if the incoming transaction already has an error"
-    },
-    {
-      "type": "signal",
-      "direction": "output",
-      "protocol": "none",
-      "port": "error_o",
-      "width": 1,
-      "description": "Indicates if an error occurred during processing"
-    },
-    {
-      "type": "signal",
-      "direction": "output",
-      "protocol": "none",
-      "port": "alert_o",
-      "width": 1,
-      "description": "Alert signal for critical errors"
-    },
-    {
-      "type": "signal",
-      "direction": "output",
-      "protocol": "none",
-      "port": "compound_txn_in_progress_o",
-      "width": 1,
-      "description": "Indicates if a compound transaction is in progress"
-    },
-    {
-      "type": "signal",
-      "direction": "input",
-      "protocol": "none",
-      "port": "readback_en_i",
-      "width": 4,
-      "description": "Enable signal for readback checks"
-    },
-    {
-      "type": "signal",
-      "direction": "input",
-      "protocol": "none",
-      "port": "wr_collision_i",
-      "width": 1,
-      "description": "Indicates a write collision"
-    },
-    {
-      "type": "signal",
-      "direction": "input",
-      "protocol": "none",
-      "port": "write_pending_i",
-      "width": 1,
-      "description": "Indicates if a write is pending"
+      "width": 32,
+      "description": "TL-UL host interface for register access"
     }
   ],
-  "parameters": [
-    {
-      "name": "EnableIntg",
-      "type": "bit",
-      "default": 0,
-      "description": "Enable integrity handling at byte level"
-    },
-    {
-      "name": "Outstanding",
-      "type": "int",
-      "default": 1,
-      "description": "Number of outstanding transactions allowed"
-    },
-    {
-      "name": "EnableReadback",
-      "type": "bit",
-      "default": 0,
-      "description": "Enable readback checks on all transactions (requires EnableIntg to be 1)"
-    }
-  ],
-  "performance": {},
-  "architecture": {
-    "type": "bus",
-    "features": [
-      "TileLink UL protocol support",
-      "Byte-level write handling with integrity checks",
-      "Optional readback verification for data integrity",
-      "Support for compound transactions"
-    ]
-  },
-  "asic": {
-    "flavor": "digital",
-    "technology": [
-      "sky130A"
-    ]
-  },
-  "fpga": {
-    "toolchain": [
-      "Vivado"
-    ],
-    "devices": [
-      "Artix-7"
-    ]
-  },
-  "dependencies": [
-    {
-      "name": "prim_assert",
-      "type": "library",
-      "description": "Assertion library for design verification"
-    },
-    {
-      "name": "prim_util_pkg",
-      "type": "library",
-      "description": "Utility package for parameter calculations"
-    },
-    {
-      "name": "prim_mubi_pkg",
-      "type": "library",
-      "description": "Multi-bit upset immune package"
-    },
-    {
-      "name": "top_pkg",
-      "type": "library",
-      "description": "Top-level package for OpenTitan project"
-    }
-  ],
-  "test": {
-    "testbenches": [],
-    "status": "upstream_passing",
-    "coverage": "functional"
-  },
-  "documentation": {
-    "upstream": "https://github.com/lowRISC/opentitan/tree/7fbd85829ec6354ef6497df69536cefe862c1f5a/hw/ip/tlul"
-  },
-  "artifacts": {
-    "total_rtl_lines": 5340
-  },
   "categories": [
     {
       "main_category": "Interface Controllers",
-      "sub_category": "Parallel Interfaces"
+      "sub_category": "protocol, tilelink"
     }
   ],
-  "keywords": [
-    "TileLink",
-    "SRAM",
-    "TL-UL",
-    "Integrity",
-    "Readback"
-  ],
-  "trust": {
-    "verification_level": "silicon_proven",
-    "tapeout_count": 0,
-    "fpga_validated": false,
-    "formal_verified": false,
-    "maintained": true,
-    "last_activity": "2026-03-27"
-  },
-  "meta": {
-    "template": {
-      "generator": "github-models-ai",
-      "template_version": "1.0.0",
-      "generated_at": "2026-03-27T23:06:05Z"
-    },
-    "schema": {
-      "version": "1.0.0"
-    }
+  "community": {
+    "issues": "https://github.com/vyges-ip/opentitan-tlul/issues",
+    "contributions": "https://github.com/vyges-ip/opentitan-tlul/pulls"
   },
   "branding": {
-    "display_name": "TL-UL Interconnect"
+    "provider": "Vyges IP Catalog",
+    "logo": "https://vyges.com/assets/logo.svg",
+    "website": "https://github.com/vyges-ip/opentitan-tlul",
+    "usage": "Use of the logo is permitted for attribution or compatibility references only."
+  },
+  "keywords": [
+    "protocol",
+    "tilelink",
+    "opentitan",
+    "lowrisc-opentitan"
+  ],
+  "asic": {
+    "flavor": "digital",
+    "pdks": [
+      "sky130A"
+    ],
+    "synthesis_tool": "yosys"
+  },
+  "fpga": {
+    "toolchain": "yosys"
+  },
+  "automation": {
+    "automation_level": "basic"
   }
 }
