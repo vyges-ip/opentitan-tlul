@@ -14,7 +14,7 @@
     "digital"
   ],
   "created": "2026-04-01T06:04:56Z",
-  "updated": "2026-04-01T06:04:56Z",
+  "updated": "2026-04-02T03:11:53Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
@@ -215,12 +215,15 @@
   "artifacts": {
     "total_rtl_lines": 5340
   },
-  "categories": [
-    {
-      "main_category": "Interface Controllers",
-      "sub_category": "Parallel Interfaces"
-    }
-  ],
+  "categories": {
+    "primary": "Base Libraries",
+    "secondary": [
+      {
+        "main_category": "Interface Controllers",
+        "sub_category": "Parallel Interfaces"
+      }
+    ]
+  },
   "keywords": [
     "TileLink",
     "SRAM",
@@ -245,5 +248,49 @@
     "schema": {
       "version": "1.0.0"
     }
-  }
+  },
+  "rtl_files": [
+    "rtl/sram2tlul.sv",
+    "rtl/tlul_adapter_dmi.sv",
+    "rtl/tlul_adapter_host.sv",
+    "rtl/tlul_adapter_racl.sv",
+    "rtl/tlul_adapter_reg.sv",
+    "rtl/tlul_adapter_reg_racl.sv",
+    "rtl/tlul_adapter_shim.sv",
+    "rtl/tlul_adapter_sram.sv",
+    "rtl/tlul_adapter_sram_racl.sv",
+    "rtl/tlul_adapter_vh.sv",
+    "rtl/tlul_assert.sv",
+    "rtl/tlul_assert_multiple.sv",
+    "rtl/tlul_cmd_intg_chk.sv",
+    "rtl/tlul_cmd_intg_gen.sv",
+    "rtl/tlul_data_integ_dec.sv",
+    "rtl/tlul_data_integ_enc.sv",
+    "rtl/tlul_err.sv",
+    "rtl/tlul_err_resp.sv",
+    "rtl/tlul_fifo_async.sv",
+    "rtl/tlul_fifo_sync.sv",
+    "rtl/tlul_jtag_dtm.sv",
+    "rtl/tlul_lc_gate.sv",
+    "rtl/tlul_pkg.sv",
+    "rtl/tlul_request_loopback.sv",
+    "rtl/tlul_rsp_intg_chk.sv",
+    "rtl/tlul_rsp_intg_gen.sv",
+    "rtl/tlul_socket_1n.sv",
+    "rtl/tlul_socket_m1.sv",
+    "rtl/tlul_sram_byte.sv"
+  ],
+  "rtl_quality": {
+    "module_prefixed": true,
+    "defines_prefixed": true,
+    "header_guards": false,
+    "one_module_per_file": true,
+    "self_contained_includes": false,
+    "no_translate_pragmas": true,
+    "lint_clean": false,
+    "no_casex": true,
+    "width_clean": false,
+    "no_sv_keyword_conflicts": true
+  },
+  "defines": []
 }
