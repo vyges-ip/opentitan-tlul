@@ -3,7 +3,7 @@
   "x-version": "1.0.0",
   "name": "opentitan-tlul",
   "version": "0.1.0",
-  "description": "A TileLink UL (TL-UL) adapter for SRAM-like devices, supporting byte-level writes with optional data integrity and readback checks.",
+  "description": "TileLink UL adapter for SRAM-like devices, supporting byte-level integrity and readback checks for secure data transactions.",
   "license": "Apache-2.0",
   "maturity": "production",
   "target": [
@@ -13,12 +13,12 @@
   "design_type": [
     "digital"
   ],
-  "created": "2026-04-01T06:04:56Z",
-  "updated": "2026-04-02T03:11:53Z",
+  "created": "2026-04-06T03:27:40Z",
+  "updated": "2026-04-06T03:27:40Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
-    "commit": "4be12ad66f947eb28efb785cf644643bf75517af",
+    "commit": "9dcbb0555f6da8b8a4d9b8057bccbe89cfccc69c",
     "ip_path": "hw/ip/tlul",
     "private": false,
     "containsEncryptedPayload": false,
@@ -39,7 +39,7 @@
       "protocol": "generic",
       "port": "clk_i",
       "width": 1,
-      "description": "Clock input signal"
+      "description": "Clock input signal."
     },
     {
       "type": "reset",
@@ -47,7 +47,7 @@
       "protocol": "generic",
       "port": "rst_ni",
       "width": 1,
-      "description": "Active-low reset signal"
+      "description": "Active-low reset signal."
     },
     {
       "type": "bus",
@@ -55,7 +55,7 @@
       "protocol": "TL-UL",
       "port": "tl_i",
       "width": 57,
-      "description": "TileLink UL host-to-device interface"
+      "description": "TileLink UL host-to-device interface."
     },
     {
       "type": "bus",
@@ -63,7 +63,7 @@
       "protocol": "TL-UL",
       "port": "tl_o",
       "width": 57,
-      "description": "TileLink UL device-to-host interface"
+      "description": "TileLink UL device-to-host interface."
     },
     {
       "type": "bus",
@@ -71,7 +71,7 @@
       "protocol": "TL-UL",
       "port": "tl_sram_o",
       "width": 57,
-      "description": "TileLink UL interface to SRAM"
+      "description": "TileLink UL interface to SRAM."
     },
     {
       "type": "bus",
@@ -79,7 +79,7 @@
       "protocol": "TL-UL",
       "port": "tl_sram_i",
       "width": 57,
-      "description": "TileLink UL interface from SRAM"
+      "description": "TileLink UL interface from SRAM."
     },
     {
       "type": "signal",
@@ -87,7 +87,7 @@
       "protocol": "generic",
       "port": "error_i",
       "width": 1,
-      "description": "Indicates if the incoming transaction has an error"
+      "description": "Indicates an error in the incoming transaction."
     },
     {
       "type": "signal",
@@ -95,7 +95,7 @@
       "protocol": "generic",
       "port": "error_o",
       "width": 1,
-      "description": "Indicates if an error occurred during processing"
+      "description": "Indicates an error in the outgoing transaction."
     },
     {
       "type": "signal",
@@ -103,7 +103,7 @@
       "protocol": "generic",
       "port": "alert_o",
       "width": 1,
-      "description": "Alert signal for critical errors"
+      "description": "Alert signal for critical conditions."
     },
     {
       "type": "signal",
@@ -111,7 +111,7 @@
       "protocol": "generic",
       "port": "compound_txn_in_progress_o",
       "width": 1,
-      "description": "Indicates if a compound transaction is in progress"
+      "description": "Indicates a compound transaction is in progress."
     },
     {
       "type": "signal",
@@ -119,7 +119,7 @@
       "protocol": "generic",
       "port": "readback_en_i",
       "width": 4,
-      "description": "Enables readback checks for transactions"
+      "description": "Enable signal for readback checks."
     },
     {
       "type": "signal",
@@ -127,7 +127,7 @@
       "protocol": "generic",
       "port": "wr_collision_i",
       "width": 1,
-      "description": "Indicates a write collision"
+      "description": "Indicates a write collision."
     },
     {
       "type": "signal",
@@ -135,7 +135,7 @@
       "protocol": "generic",
       "port": "write_pending_i",
       "width": 1,
-      "description": "Indicates if a write operation is pending"
+      "description": "Indicates a pending write transaction."
     }
   ],
   "parameters": [
@@ -143,19 +143,19 @@
       "name": "EnableIntg",
       "type": "bit",
       "default": 0,
-      "description": "Enable integrity handling at the byte level"
+      "description": "Enable integrity handling at byte level."
     },
     {
       "name": "Outstanding",
       "type": "int",
       "default": 1,
-      "description": "Maximum number of outstanding transactions"
+      "description": "Maximum number of outstanding transactions."
     },
     {
       "name": "EnableReadback",
       "type": "bit",
       "default": 0,
-      "description": "Enable readback checks on all transactions (requires EnableIntg to be enabled)"
+      "description": "Enable readback checks on all transactions (requires EnableIntg)."
     }
   ],
   "performance": {},
@@ -163,9 +163,9 @@
     "type": "bus",
     "features": [
       "TileLink UL protocol support",
-      "Byte-level write support with integrity checks",
-      "Optional readback verification for data integrity",
-      "Support for compound transactions"
+      "Byte-level integrity handling",
+      "Readback checks for secure transactions",
+      "Error propagation and handling"
     ]
   },
   "asic": {
@@ -184,24 +184,19 @@
   },
   "dependencies": [
     {
-      "name": "prim_assert",
+      "name": "prim_util_pkg",
       "type": "library",
-      "description": "Assertion library for design verification"
+      "description": "Utility package for primitive operations."
     },
     {
       "name": "prim_mubi_pkg",
       "type": "library",
-      "description": "Multi-bit utilities package"
-    },
-    {
-      "name": "prim_util_pkg",
-      "type": "library",
-      "description": "Utility package for parameter calculations"
+      "description": "Package for multi-bit utilities."
     },
     {
       "name": "top_pkg",
       "type": "library",
-      "description": "Top-level package for OpenTitan"
+      "description": "Top-level package for system-wide definitions."
     }
   ],
   "test": {
@@ -215,20 +210,17 @@
   "artifacts": {
     "total_rtl_lines": 5340
   },
-  "categories": {
-    "primary": "Base Libraries",
-    "secondary": [
-      {
-        "main_category": "Interface Controllers",
-        "sub_category": "Parallel Interfaces"
-      }
-    ]
-  },
+  "categories": [
+    {
+      "main_category": "Interface Controllers",
+      "sub_category": "Parallel Interfaces"
+    }
+  ],
   "keywords": [
     "TileLink",
     "SRAM",
-    "adapter",
-    "integrity",
+    "Integrity",
+    "Readback",
     "OpenTitan"
   ],
   "trust": {
@@ -237,60 +229,16 @@
     "fpga_validated": false,
     "formal_verified": false,
     "maintained": true,
-    "last_activity": "2026-04-01"
+    "last_activity": "2026-04-06"
   },
   "meta": {
     "template": {
       "generator": "github-models-ai",
       "template_version": "1.0.0",
-      "generated_at": "2026-04-01T06:04:56Z"
+      "generated_at": "2026-04-06T03:27:40Z"
     },
     "schema": {
       "version": "1.0.0"
     }
-  },
-  "rtl_files": [
-    "rtl/sram2tlul.sv",
-    "rtl/tlul_adapter_dmi.sv",
-    "rtl/tlul_adapter_host.sv",
-    "rtl/tlul_adapter_racl.sv",
-    "rtl/tlul_adapter_reg.sv",
-    "rtl/tlul_adapter_reg_racl.sv",
-    "rtl/tlul_adapter_shim.sv",
-    "rtl/tlul_adapter_sram.sv",
-    "rtl/tlul_adapter_sram_racl.sv",
-    "rtl/tlul_adapter_vh.sv",
-    "rtl/tlul_assert.sv",
-    "rtl/tlul_assert_multiple.sv",
-    "rtl/tlul_cmd_intg_chk.sv",
-    "rtl/tlul_cmd_intg_gen.sv",
-    "rtl/tlul_data_integ_dec.sv",
-    "rtl/tlul_data_integ_enc.sv",
-    "rtl/tlul_err.sv",
-    "rtl/tlul_err_resp.sv",
-    "rtl/tlul_fifo_async.sv",
-    "rtl/tlul_fifo_sync.sv",
-    "rtl/tlul_jtag_dtm.sv",
-    "rtl/tlul_lc_gate.sv",
-    "rtl/tlul_pkg.sv",
-    "rtl/tlul_request_loopback.sv",
-    "rtl/tlul_rsp_intg_chk.sv",
-    "rtl/tlul_rsp_intg_gen.sv",
-    "rtl/tlul_socket_1n.sv",
-    "rtl/tlul_socket_m1.sv",
-    "rtl/tlul_sram_byte.sv"
-  ],
-  "rtl_quality": {
-    "module_prefixed": true,
-    "defines_prefixed": true,
-    "header_guards": false,
-    "one_module_per_file": true,
-    "self_contained_includes": false,
-    "no_translate_pragmas": true,
-    "lint_clean": false,
-    "no_casex": true,
-    "width_clean": false,
-    "no_sv_keyword_conflicts": true
-  },
-  "defines": []
+  }
 }
