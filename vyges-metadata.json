@@ -14,7 +14,7 @@
     "digital"
   ],
   "created": "2026-04-13T03:38:19Z",
-  "updated": "2026-04-13T03:38:19Z",
+  "updated": "2026-04-16T21:20:00Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
@@ -184,24 +184,25 @@
   },
   "dependencies": [
     {
-      "name": "prim_assert",
-      "type": "library",
-      "description": "Assertion library for formal verification"
-    },
-    {
-      "name": "prim_mubi_pkg",
-      "type": "library",
-      "description": "Multi-bit utility package for safe signal handling"
-    },
-    {
-      "name": "prim_util_pkg",
-      "type": "library",
-      "description": "Utility package for parameterized design"
-    },
-    {
-      "name": "top_pkg",
-      "type": "library",
-      "description": "Top-level package for system-wide constants"
+      "name": "vyges-ip/opentitan-prim",
+      "version": ">=1.0.0",
+      "dependency_info": {
+        "name": "vyges-ip/opentitan-prim",
+        "version": ">=1.0.0",
+        "type": "ip"
+      },
+      "source_management": {
+        "source": {
+          "type": "git",
+          "url": "https://github.com/vyges-ip/opentitan-prim",
+          "commit": "main"
+        },
+        "autoFetch": true
+      },
+      "compliance": {
+        "license": "Apache-2.0",
+        "attribution": "OpenTitan prim_* macros and packages imported by this IP's RTL (prim_assert, prim_mubi_pkg, prim_util_pkg, etc.). MUST-HAVE: cannot compile without."
+      }
     }
   ],
   "test": {
