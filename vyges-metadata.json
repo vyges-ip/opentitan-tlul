@@ -3,7 +3,7 @@
   "x-version": "1.0.0",
   "name": "opentitan-tlul",
   "version": "0.1.0",
-  "description": "TileLink UL (TL-UL) adapter for SRAM-like devices, supporting byte-level writes with optional data integrity and readback checks.",
+  "description": "A TileLink Ultra-Lite (TL-UL) adapter for SRAM-like devices, supporting byte-level writes with optional integrity and readback checks.",
   "license": "Apache-2.0",
   "maturity": "production",
   "target": [
@@ -13,12 +13,12 @@
   "design_type": [
     "digital"
   ],
-  "created": "2026-04-20T03:38:14Z",
-  "updated": "2026-04-20T03:38:14Z",
+  "created": "2026-04-23T17:43:14Z",
+  "updated": "2026-04-23T17:43:14Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
-    "commit": "46cc36599f56f60b344afb031185a85fc8654e68",
+    "commit": "5b8f6746131e231116e685585432b70359d2c727",
     "ip_path": "hw/ip/tlul",
     "private": false,
     "containsEncryptedPayload": false,
@@ -34,99 +34,108 @@
   ],
   "interfaces": [
     {
-      "type": "bus",
-      "direction": "input",
-      "protocol": "TL-UL",
-      "port": "tl_i",
-      "width": 57,
-      "description": "TileLink host-to-device input interface"
-    },
-    {
-      "type": "bus",
-      "direction": "output",
-      "protocol": "TL-UL",
-      "port": "tl_o",
-      "width": 57,
-      "description": "TileLink device-to-host output interface"
-    },
-    {
-      "type": "bus",
-      "direction": "output",
-      "protocol": "TL-UL",
-      "port": "tl_sram_o",
-      "width": 57,
-      "description": "TileLink host-to-SRAM output interface"
-    },
-    {
-      "type": "bus",
-      "direction": "input",
-      "protocol": "TL-UL",
-      "port": "tl_sram_i",
-      "width": 57,
-      "description": "TileLink SRAM-to-host input interface"
-    },
-    {
       "type": "clock",
       "direction": "input",
+      "protocol": "standard",
       "port": "clk_i",
       "width": 1,
-      "description": "Clock input"
+      "description": "Clock input signal"
     },
     {
       "type": "reset",
       "direction": "input",
+      "protocol": "active-low",
       "port": "rst_ni",
       "width": 1,
-      "description": "Active-low reset input"
+      "description": "Active-low reset signal"
+    },
+    {
+      "type": "bus",
+      "direction": "slave",
+      "protocol": "TL-UL",
+      "port": "tl_i",
+      "width": 57,
+      "description": "TileLink UL host-to-device interface"
+    },
+    {
+      "type": "bus",
+      "direction": "master",
+      "protocol": "TL-UL",
+      "port": "tl_o",
+      "width": 57,
+      "description": "TileLink UL device-to-host interface"
+    },
+    {
+      "type": "bus",
+      "direction": "master",
+      "protocol": "TL-UL",
+      "port": "tl_sram_o",
+      "width": 57,
+      "description": "TileLink UL interface to SRAM"
+    },
+    {
+      "type": "bus",
+      "direction": "slave",
+      "protocol": "TL-UL",
+      "port": "tl_sram_i",
+      "width": 57,
+      "description": "TileLink UL interface from SRAM"
     },
     {
       "type": "signal",
       "direction": "input",
+      "protocol": "custom",
       "port": "error_i",
       "width": 1,
-      "description": "Input signal indicating an error in the incoming transaction"
+      "description": "Indicates an incoming transaction error"
     },
     {
       "type": "signal",
       "direction": "output",
+      "protocol": "custom",
       "port": "error_o",
       "width": 1,
-      "description": "Output signal indicating an error in the outgoing transaction"
+      "description": "Indicates an outgoing transaction error"
     },
     {
       "type": "signal",
       "direction": "output",
+      "protocol": "custom",
       "port": "alert_o",
       "width": 1,
-      "description": "Output signal indicating an alert condition"
+      "description": "Alert signal for integrity or other errors"
     },
     {
       "type": "signal",
       "direction": "output",
+      "protocol": "custom",
       "port": "compound_txn_in_progress_o",
       "width": 1,
-      "description": "Output signal indicating a compound transaction is in progress"
+      "description": "Indicates a compound transaction is in progress"
     },
     {
       "type": "signal",
       "direction": "input",
+      "protocol": "custom",
       "port": "readback_en_i",
       "width": 4,
-      "description": "Input signal to enable readback checks"
+      "description": "Enable signal for readback checks"
     },
     {
       "type": "signal",
       "direction": "input",
+      "protocol": "custom",
       "port": "wr_collision_i",
       "width": 1,
-      "description": "Input signal indicating a write collision"
+      "description": "Indicates a write collision"
     },
     {
       "type": "signal",
       "direction": "input",
+      "protocol": "custom",
       "port": "write_pending_i",
       "width": 1,
-      "description": "Input signal indicating a write is pending"
+      "description": "Indicates a write is pending"
     }
   ],
   "parameters": [
@@ -134,13 +143,13 @@
       "name": "EnableIntg",
       "type": "bit",
       "default": 0,
-      "description": "Enable integrity handling at the byte level"
+      "description": "Enable integrity handling at byte level"
     },
     {
       "name": "Outstanding",
       "type": "int",
       "default": 1,
-      "description": "Number of outstanding transactions supported"
+      "description": "Number of outstanding transactions allowed"
     },
     {
       "name": "EnableReadback",
@@ -154,9 +163,8 @@
     "type": "bus",
     "features": [
       "TileLink UL protocol support",
-      "Byte-level write support",
-      "Data integrity checks",
-      "Optional readback verification",
+      "Byte-level write integrity handling",
+      "Optional readback checks for data integrity",
       "Error handling and alert generation"
     ]
   },
@@ -178,22 +186,22 @@
     {
       "name": "prim_assert",
       "type": "library",
-      "description": "Assertion library for OpenTitan designs"
+      "description": "Assertion library for design verification"
     },
     {
       "name": "prim_util_pkg",
       "type": "library",
-      "description": "Utility package for OpenTitan designs"
+      "description": "Utility package for parameter calculations"
     },
     {
       "name": "prim_mubi_pkg",
       "type": "library",
-      "description": "Multi-bit utilities package for OpenTitan designs"
+      "description": "Multi-bit utility package for integrity checks"
     },
     {
       "name": "top_pkg",
       "type": "library",
-      "description": "Top-level package for OpenTitan designs"
+      "description": "Top-level package for system-wide constants"
     }
   ],
   "test": {
@@ -202,7 +210,7 @@
     "coverage": "functional"
   },
   "documentation": {
-    "upstream": "https://github.com/lowRISC/opentitan/tree/46cc36599f56f60b344afb031185a85fc8654e68/hw/ip/tlul"
+    "upstream": "https://github.com/lowRISC/opentitan"
   },
   "artifacts": {
     "total_rtl_lines": 5528
@@ -216,10 +224,9 @@
   "keywords": [
     "TileLink",
     "SRAM",
-    "TL-UL",
-    "data integrity",
-    "readback",
-    "OpenTitan"
+    "adapter",
+    "integrity",
+    "readback"
   ],
   "trust": {
     "verification_level": "silicon_proven",
@@ -227,28 +234,16 @@
     "fpga_validated": false,
     "formal_verified": false,
     "maintained": true,
-    "last_activity": "2026-04-20T03:38:14Z"
+    "last_activity": "2026-04-23"
   },
   "meta": {
     "template": {
       "generator": "github-models-ai",
       "template_version": "1.0.0",
-      "generated_at": "2026-04-20T03:38:14Z"
+      "generated_at": "2026-04-23T17:43:14Z"
     },
     "schema": {
       "version": "1.0.0"
     }
-  },
-  "vyges_additions": [
-    {
-      "path": "vyges-additions/tlul_slave_rsp_intg_wrap.sv",
-      "kind": "rtl",
-      "description": "Signing wrapper for baseline TL-UL slaves attached to a signed bus. See vyges-additions/README.md."
-    },
-    {
-      "path": "vyges-additions/tlul_master_cmd_intg_wrap.sv",
-      "kind": "rtl",
-      "description": "Signing wrapper for baseline TL-UL masters attached to a signed bus. See vyges-additions/README.md."
-    }
-  ]
+  }
 }
