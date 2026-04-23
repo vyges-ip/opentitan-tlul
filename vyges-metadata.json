@@ -238,5 +238,17 @@
     "schema": {
       "version": "1.0.0"
     }
-  }
+  },
+  "vyges_additions": [
+    {
+      "path": "vyges-additions/tlul_slave_rsp_intg_wrap.sv",
+      "kind": "rtl",
+      "description": "Signing wrapper for baseline TL-UL slaves attached to a signed bus. See vyges-additions/README.md."
+    },
+    {
+      "path": "vyges-additions/tlul_master_cmd_intg_wrap.sv",
+      "kind": "rtl",
+      "description": "Signing wrapper for baseline TL-UL masters attached to a signed bus. See vyges-additions/README.md."
+    }
+  ]
 }

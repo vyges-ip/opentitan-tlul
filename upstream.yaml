@@ -17,3 +17,18 @@ license:
   spdx: Apache-2.0
   file: apache-2.0
 metadata_locked: true
+# Vyges-authored content — excluded from upstream sync.
+# Files live under vyges-additions/ (net-new; no upstream path collision)
+# and are declared in vyges-metadata.json via vyges_additions[]. They are
+# never re-pulled or overwritten by a sync run.
+vyges_authored:
+  exclude_from_sync:
+    - "vyges-additions/"
+# Sync policy for future vyges-overlays/ (when present):
+#   On each sync, if any upstream file path is also listed under
+#   vyges_overlays[].replaces in vyges-metadata.json, the sync report
+#   flags it for human review. Upstream may have fixed the original
+#   issue natively, rendering the overlay obsolete. The overlay still
+#   masks the upstream file at build time; flagging is advisory only.
+sync_policy:
+  overlay_conflict: "flag-for-review"
