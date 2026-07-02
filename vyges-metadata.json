@@ -14,7 +14,7 @@
     "digital"
   ],
   "created": "2026-04-23T17:43:14Z",
-  "updated": "2026-07-02T00:38:28Z",
+  "updated": "2026-07-02T00:54:34Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
@@ -58,21 +58,6 @@
       "description": "TileLink UL host-to-device interface",
       "signals": [
         {
-          "name": "clk_i",
-          "direction": "input",
-          "type": "clock",
-          "width": 1,
-          "description": "System clock"
-        },
-        {
-          "name": "rst_ni",
-          "direction": "input",
-          "type": "reset",
-          "width": 1,
-          "active_level": "low",
-          "description": "Active-low synchronous reset"
-        },
-        {
           "name": "tl_i",
           "direction": "input",
           "type": "data",
@@ -96,21 +81,6 @@
       "width": 57,
       "description": "TileLink UL device-to-host interface",
       "signals": [
-        {
-          "name": "clk_i",
-          "direction": "input",
-          "type": "clock",
-          "width": 1,
-          "description": "System clock"
-        },
-        {
-          "name": "rst_ni",
-          "direction": "input",
-          "type": "reset",
-          "width": 1,
-          "active_level": "low",
-          "description": "Active-low synchronous reset"
-        },
         {
           "name": "tl_i",
           "direction": "input",
@@ -136,21 +106,6 @@
       "description": "TileLink UL interface to SRAM",
       "signals": [
         {
-          "name": "clk_i",
-          "direction": "input",
-          "type": "clock",
-          "width": 1,
-          "description": "System clock"
-        },
-        {
-          "name": "rst_ni",
-          "direction": "input",
-          "type": "reset",
-          "width": 1,
-          "active_level": "low",
-          "description": "Active-low synchronous reset"
-        },
-        {
           "name": "tl_i",
           "direction": "input",
           "type": "data",
@@ -174,21 +129,6 @@
       "width": 57,
       "description": "TileLink UL interface from SRAM",
       "signals": [
-        {
-          "name": "clk_i",
-          "direction": "input",
-          "type": "clock",
-          "width": 1,
-          "description": "System clock"
-        },
-        {
-          "name": "rst_ni",
-          "direction": "input",
-          "type": "reset",
-          "width": 1,
-          "active_level": "low",
-          "description": "Active-low synchronous reset"
-        },
         {
           "name": "tl_i",
           "direction": "input",
