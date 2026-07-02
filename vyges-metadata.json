@@ -236,6 +236,18 @@
     "maintained": true,
     "last_activity": "2026-04-23"
   },
+  "vyges_additions": [
+    {
+      "path": "vyges-additions/tlul_master_cmd_intg_wrap.sv",
+      "kind": "rtl",
+      "description": "Signing wrapper that adds command integrity to a baseline TL-UL master attached to a signed bus."
+    },
+    {
+      "path": "vyges-additions/tlul_slave_rsp_intg_wrap.sv",
+      "kind": "rtl",
+      "description": "Signing wrapper that adds response integrity to a baseline TL-UL slave attached to a signed bus."
+    }
+  ],
   "meta": {
     "template": {
       "generator": "github-models-ai",
