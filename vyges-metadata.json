@@ -14,7 +14,7 @@
     "digital"
   ],
   "created": "2026-04-23T17:43:14Z",
-  "updated": "2026-04-23T17:43:14Z",
+  "updated": "2026-07-02T00:38:28Z",
   "source": {
     "type": "git",
     "url": "https://github.com/lowRISC/opentitan",
@@ -55,7 +55,38 @@
       "protocol": "TL-UL",
       "port": "tl_i",
       "width": 57,
-      "description": "TileLink UL host-to-device interface"
+      "description": "TileLink UL host-to-device interface",
+      "signals": [
+        {
+          "name": "clk_i",
+          "direction": "input",
+          "type": "clock",
+          "width": 1,
+          "description": "System clock"
+        },
+        {
+          "name": "rst_ni",
+          "direction": "input",
+          "type": "reset",
+          "width": 1,
+          "active_level": "low",
+          "description": "Active-low synchronous reset"
+        },
+        {
+          "name": "tl_i",
+          "direction": "input",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL host-to-device (tl_h2d_t struct) \u2014 connect to xbar slave port"
+        },
+        {
+          "name": "tl_o",
+          "direction": "output",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL device-to-host (tl_d2h_t struct) \u2014 connect to xbar slave port"
+        }
+      ]
     },
     {
       "type": "bus",
@@ -63,7 +94,38 @@
       "protocol": "TL-UL",
       "port": "tl_o",
       "width": 57,
-      "description": "TileLink UL device-to-host interface"
+      "description": "TileLink UL device-to-host interface",
+      "signals": [
+        {
+          "name": "clk_i",
+          "direction": "input",
+          "type": "clock",
+          "width": 1,
+          "description": "System clock"
+        },
+        {
+          "name": "rst_ni",
+          "direction": "input",
+          "type": "reset",
+          "width": 1,
+          "active_level": "low",
+          "description": "Active-low synchronous reset"
+        },
+        {
+          "name": "tl_i",
+          "direction": "input",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL host-to-device (tl_h2d_t struct) \u2014 connect to xbar slave port"
+        },
+        {
+          "name": "tl_o",
+          "direction": "output",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL device-to-host (tl_d2h_t struct) \u2014 connect to xbar slave port"
+        }
+      ]
     },
     {
       "type": "bus",
@@ -71,7 +133,38 @@
       "protocol": "TL-UL",
       "port": "tl_sram_o",
       "width": 57,
-      "description": "TileLink UL interface to SRAM"
+      "description": "TileLink UL interface to SRAM",
+      "signals": [
+        {
+          "name": "clk_i",
+          "direction": "input",
+          "type": "clock",
+          "width": 1,
+          "description": "System clock"
+        },
+        {
+          "name": "rst_ni",
+          "direction": "input",
+          "type": "reset",
+          "width": 1,
+          "active_level": "low",
+          "description": "Active-low synchronous reset"
+        },
+        {
+          "name": "tl_i",
+          "direction": "input",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL host-to-device (tl_h2d_t struct) \u2014 connect to xbar slave port"
+        },
+        {
+          "name": "tl_o",
+          "direction": "output",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL device-to-host (tl_d2h_t struct) \u2014 connect to xbar slave port"
+        }
+      ]
     },
     {
       "type": "bus",
@@ -79,7 +172,38 @@
       "protocol": "TL-UL",
       "port": "tl_sram_i",
       "width": 57,
-      "description": "TileLink UL interface from SRAM"
+      "description": "TileLink UL interface from SRAM",
+      "signals": [
+        {
+          "name": "clk_i",
+          "direction": "input",
+          "type": "clock",
+          "width": 1,
+          "description": "System clock"
+        },
+        {
+          "name": "rst_ni",
+          "direction": "input",
+          "type": "reset",
+          "width": 1,
+          "active_level": "low",
+          "description": "Active-low synchronous reset"
+        },
+        {
+          "name": "tl_i",
+          "direction": "input",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL host-to-device (tl_h2d_t struct) \u2014 connect to xbar slave port"
+        },
+        {
+          "name": "tl_o",
+          "direction": "output",
+          "type": "data",
+          "width": 1,
+          "description": "TL-UL device-to-host (tl_d2h_t struct) \u2014 connect to xbar slave port"
+        }
+      ]
     },
     {
       "type": "signal",
@@ -257,5 +381,36 @@
     "schema": {
       "version": "1.0.0"
     }
-  }
+  },
+  "rtl_files": [
+    "rtl/sram2tlul.sv",
+    "rtl/tlul_adapter_dmi.sv",
+    "rtl/tlul_adapter_host.sv",
+    "rtl/tlul_adapter_racl.sv",
+    "rtl/tlul_adapter_reg.sv",
+    "rtl/tlul_adapter_reg_racl.sv",
+    "rtl/tlul_adapter_shim.sv",
+    "rtl/tlul_adapter_sram.sv",
+    "rtl/tlul_adapter_sram_racl.sv",
+    "rtl/tlul_adapter_vh.sv",
+    "rtl/tlul_cmd_intg_chk.sv",
+    "rtl/tlul_cmd_intg_gen.sv",
+    "rtl/tlul_data_integ_dec.sv",
+    "rtl/tlul_data_integ_enc.sv",
+    "rtl/tlul_err.sv",
+    "rtl/tlul_err_resp.sv",
+    "rtl/tlul_fifo_async.sv",
+    "rtl/tlul_fifo_sync.sv",
+    "rtl/tlul_jtag_dtm.sv",
+    "rtl/tlul_lc_gate.sv",
+    "rtl/tlul_pkg.sv",
+    "rtl/tlul_request_loopback.sv",
+    "rtl/tlul_rsp_intg_chk.sv",
+    "rtl/tlul_rsp_intg_gen.sv",
+    "rtl/tlul_socket_1n.sv",
+    "rtl/tlul_socket_m1.sv",
+    "rtl/tlul_sram_byte.sv",
+    "vyges-additions/tlul_master_cmd_intg_wrap.sv",
+    "vyges-additions/tlul_slave_rsp_intg_wrap.sv"
+  ]
 }
